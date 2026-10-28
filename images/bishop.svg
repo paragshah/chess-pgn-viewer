@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" version="1.1" style="shape-rendering:geometricPrecision;text-rendering:geometricPrecision;image-rendering:optimizeQuality;" viewBox="0 0 3835 11072.5" x="0px" y="0px" fill-rule="evenodd" clip-rule="evenodd">
+    <defs>
+        <style type="text/css">
+            .fil0 {fill:black;fill-rule:nonzero}
+
+        </style>
+    </defs>
+    <g>
+        <path class="fil0" d="M845 6692l2144 0c-324,-894 -305,-1770 -367,-2675l-1410 0c-62,905 -44,1780 -367,2675z"/>
+        <path class="fil0" d="M419 6831l0 241 2996 0 0 -241c-998,0 -1997,0 -2996,0z"/>
+        <path class="fil0" d="M3228 7211l-2621 0c93,862 -409,606 -423,1267l3467 0c-14,-660 -512,-397 -423,-1267z"/>
+        <polygon class="fil0" points="0,8617 0,8858 3835,8858 3835,8617 "/>
+        <path class="fil0" d="M2032 48c-102,-102 -277,-30 -277,115 0,144 175,217 277,115 64,-64 64,-167 0,-230z"/>
+        <path class="fil0" d="M2016 477c-64,20 -134,20 -198,0 -429,396 -1024,921 -1036,1551 14,419 217,859 575,1091l1120 0c359,-232 561,-673 576,-1092 -7,-361 -209,-685 -436,-953l-505 1087c-110,238 -464,67 -356,-165l571 -1229c-102,-99 -207,-194 -311,-290z"/>
+        <path class="fil0" d="M2986 3640l-2137 0c-155,0 -151,236 0,236l2137 0c155,0 151,-236 0,-236z"/>
+        <polygon class="fil0" points="1207,3258 1207,3499 2627,3499 2627,3258 "/>
+    </g>
+</svg>

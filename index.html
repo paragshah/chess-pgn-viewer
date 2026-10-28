@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Chess</title>
+        <link rel="stylesheet" href="style/reset.css">
+        <link rel="stylesheet" href="style/board.css">
+    </head>
+    <body>
+        <button id="btn-settings" class="settings-btn" title="Settings">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="3"/>
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+            </svg>
+        </button>
+
+        <div id="settings-overlay" class="settings-overlay hidden">
+            <div class="settings-modal">
+                <div class="settings-header">
+                    <h2>Settings</h2>
+                    <button id="btn-settings-close" class="settings-close">&times;</button>
+                </div>
+                <div class="settings-body">
+                    <div class="settings-section">
+                        <label class="settings-label">Theme</label>
+                        <div id="theme-list" class="theme-list"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pgn-upload-area" id="pgn-upload-area">
+            <input type="file" id="pgn-file-input" accept=".pgn" hidden>
+            <button id="btn-upload" class="upload-btn">Load PGN File</button>
+            <span class="upload-hint">or drag &amp; drop a .pgn file</span>
+            <div id="game-selector-container" class="game-selector-container hidden">
+                <select id="game-selector" class="game-selector"></select>
+            </div>
+        </div>
+
+        <div class="page-layout">
+            <div class="board-container">
+                <div id="captured-top" class="captured-pieces"></div>
+                <div class="board">
+                    <ul class="board-letter-container">
+                        <li>a</li>
+                        <li>b</li>
+                        <li>c</li>
+                        <li>d</li>
+                        <li>e</li>
+                        <li>f</li>
+                        <li>g</li>
+                        <li>h</li>
+                    </ul>
+                    <ul class="board-number-container">
+                        <li>1</li>
+                        <li>2</li>
+                        <li>3</li>
+                        <li>4</li>
+                        <li>5</li>
+                        <li>6</li>
+                        <li>7</li>
+                        <li>8</li>
+                    </ul>
+                    <ul class="board-row">
+                        <li class="board-square board-light" data-row="0" data-col="0" data-square="a8"></li>
+                        <li class="board-square board-dark"  data-row="0" data-col="1" data-square="b8"></li>
+                        <li class="board-square board-light" data-row="0" data-col="2" data-square="c8"></li>
+                        <li class="board-square board-dark"  data-row="0" data-col="3" data-square="d8"></li>
+                        <li class="board-square board-light" data-row="0" data-col="4" data-square="e8"></li>
+                        <li class="board-square board-dark"  data-row="0" data-col="5" data-square="f8"></li>
+                        <li class="board-square board-light" data-row="0" data-col="6" data-square="g8"></li>
+                        <li class="board-square board-dark"  data-row="0" data-col="7" data-square="h8"></li>
+                    </ul>
+                    <ul class="board-row">
+                        <li class="board-square board-dark"  data-row="1" data-col="0" data-square="a7"></li>
+                        <li class="board-square board-light" data-row="1" data-col="1" data-square="b7"></li>
+                        <li class="board-square board-dark"  data-row="1" data-col="2" data-square="c7"></li>
+                        <li class="board-square board-light" data-row="1" data-col="3" data-square="d7"></li>
+                        <li class="board-square board-dark"  data-row="1" data-col="4" data-square="e7"></li>
+                        <li class="board-square board-light" data-row="1" data-col="5" data-square="f7"></li>
+                        <li class="board-square board-dark"  data-row="1" data-col="6" data-square="g7"></li>
+                        <li class="board-square board-light" data-row="1" data-col="7" data-square="h7"></li>
+                    </ul>
+                    <ul class="board-row">
+                        <li class="board-square board-light" data-row="2" data-col="0" data-square="a6"></li>
+                        <li class="board-square board-dark"  data-row="2" data-col="1" data-square="b6"></li>
+                        <li class="board-square board-light" data-row="2" data-col="2" data-square="c6"></li>
+                        <li class="board-square board-dark"  data-row="2" data-col="3" data-square="d6"></li>
+                        <li class="board-square board-light" data-row="2" data-col="4" data-square="e6"></li>
+                        <li class="board-square board-dark"  data-row="2" data-col="5" data-square="f6"></li>
+                        <li class="board-square board-light" data-row="2" data-col="6" data-square="g6"></li>
+                        <li class="board-square board-dark"  data-row="2" data-col="7" data-square="h6"></li>
+                    </ul>
+                    <ul class="board-row">
+                        <li class="board-square board-dark"  data-row="3" data-col="0" data-square="a5"></li>
+                        <li class="board-square board-light" data-row="3" data-col="1" data-square="b5"></li>
+                        <li class="board-square board-dark"  data-row="3" data-col="2" data-square="c5"></li>
+                        <li class="board-square board-light" data-row="3" data-col="3" data-square="d5"></li>
+                        <li class="board-square board-dark"  data-row="3" data-col="4" data-square="e5"></li>
+                        <li class="board-square board-light" data-row="3" data-col="5" data-square="f5"></li>
+                        <li class="board-square board-dark"  data-row="3" data-col="6" data-square="g5"></li>
+                        <li class="board-square board-light" data-row="3" data-col="7" data-square="h5"></li>
+                    </ul>
+                    <ul class="board-row">
+                        <li class="board-square board-light" data-row="4" data-col="0" data-square="a4"></li>
+                        <li class="board-square board-dark"  data-row="4" data-col="1" data-square="b4"></li>
+                        <li class="board-square board-light" data-row="4" data-col="2" data-square="c4"></li>
+                        <li class="board-square board-dark"  data-row="4" data-col="3" data-square="d4"></li>
+                        <li class="board-square board-light" data-row="4" data-col="4" data-square="e4"></li>
+                        <li class="board-square board-dark"  data-row="4" data-col="5" data-square="f4"></li>
+                        <li class="board-square board-light" data-row="4" data-col="6" data-square="g4"></li>
+                        <li class="board-square board-dark"  data-row="4" data-col="7" data-square="h4"></li>
+                    </ul>
+                    <ul class="board-row">
+                        <li class="board-square board-dark"  data-row="5" data-col="0" data-square="a3"></li>
+                        <li class="board-square board-light" data-row="5" data-col="1" data-square="b3"></li>
+                        <li class="board-square board-dark"  data-row="5" data-col="2" data-square="c3"></li>
+                        <li class="board-square board-light" data-row="5" data-col="3" data-square="d3"></li>
+                        <li class="board-square board-dark"  data-row="5" data-col="4" data-square="e3"></li>
+                        <li class="board-square board-light" data-row="5" data-col="5" data-square="f3"></li>
+                        <li class="board-square board-dark"  data-row="5" data-col="6" data-square="g3"></li>
+                        <li class="board-square board-light" data-row="5" data-col="7" data-square="h3"></li>
+                    </ul>
+                    <ul class="board-row">
+                        <li class="board-square board-light" data-row="6" data-col="0" data-square="a2"></li>
+                        <li class="board-square board-dark"  data-row="6" data-col="1" data-square="b2"></li>
+                        <li class="board-square board-light" data-row="6" data-col="2" data-square="c2"></li>
+                        <li class="board-square board-dark"  data-row="6" data-col="3" data-square="d2"></li>
+                        <li class="board-square board-light" data-row="6" data-col="4" data-square="e2"></li>
+                        <li class="board-square board-dark"  data-row="6" data-col="5" data-square="f2"></li>
+                        <li class="board-square board-light" data-row="6" data-col="6" data-square="g2"></li>
+                        <li class="board-square board-dark"  data-row="6" data-col="7" data-square="h2"></li>
+                    </ul>
+                    <ul class="board-row">
+                        <li class="board-square board-dark"  data-row="7" data-col="0" data-square="a1"></li>
+                        <li class="board-square board-light" data-row="7" data-col="1" data-square="b1"></li>
+                        <li class="board-square board-dark"  data-row="7" data-col="2" data-square="c1"></li>
+                        <li class="board-square board-light" data-row="7" data-col="3" data-square="d1"></li>
+                        <li class="board-square board-dark"  data-row="7" data-col="4" data-square="e1"></li>
+                        <li class="board-square board-light" data-row="7" data-col="5" data-square="f1"></li>
+                        <li class="board-square board-dark"  data-row="7" data-col="6" data-square="g1"></li>
+                        <li class="board-square board-light" data-row="7" data-col="7" data-square="h1"></li>
+                    </ul>
+                </div>
+                <div id="captured-bottom" class="captured-pieces"></div>
+            </div>
+
+            <div class="side-panel">
+                <div class="move-list-container">
+                    <div id="move-list" class="move-list"></div>
+                </div>
+
+                <div id="move-hint" class="move-hint"></div>
+            </div>
+
+            <div class="replay-controls">
+                <div class="controls-row">
+                    <button id="btn-start" title="Go to start" disabled>&#x21E4;</button>
+                    <button id="btn-prev" title="Previous move" disabled>&#x2190;</button>
+                    <button id="btn-play" title="Play" disabled>&#x25B6;</button>
+                    <button id="btn-next" title="Next move" disabled>&#x2192;</button>
+                    <button id="btn-end" title="Go to end" disabled>&#x21E5;</button>
+                    <span id="move-counter" class="move-counter">0 / 0</span>
+                </div>
+                <div class="speed-row">
+                    <label for="speed-slider">Speed</label>
+                    <input type="range" id="speed-slider" min="100" max="3000" value="1000" step="100">
+                    <span id="speed-label">1.0s</span>
+                </div>
+            </div>
+
+            <div id="game-info" class="game-info"></div>
+        </div>
+
+        <template id="pawn">
+            <div class="piece-container">
+                <svg viewBox="0 0 3022 5500" class="piece pawn">
+                    <g>
+                        <path class="fil0" d="M0 5394l3022 0 0 -190c-1008,0 -2015,0 -3022,0l0 190z"/>
+                        <path class="fil0" d="M625 1874l1771 0c-32,-141 -158,-244 -305,-244l-1160 0c-147,0 -274,103 -306,244z"/>
+                        <path class="fil0" d="M2580 3800l-2138 0c-112,0 -110,164 0,164l2138 0c112,0 109,-164 0,-164z"/>
+                        <path class="fil0" d="M2063 255c-306,-340 -799,-340 -1105,0 -303,338 -311,888 -13,1236l1131 0c299,-348 291,-898 -13,-1236z"/>
+                        <path class="fil0" d="M145 5095l2732 0c-11,-520 -403,-313 -333,-999l-2066 0c74,680 -322,478 -333,999z"/>
+                        <path class="fil0" d="M2063 2013l-1104 0c-23,571 -91,1113 -312,1655l1728 0c-221,-542 -288,-1083 -312,-1655z"/>
+                    </g>
+                </svg>
+            </div>
+            <div class="piece-focus"></div>
+        </template>
+        <template id="rook">
+            <div class="piece-container">
+                <svg viewBox="0 0 3835 6845" class="piece rook">
+                    <g>
+                        <path class="fil0" d="M184 6319l3467 0c-14,-660 -512,-397 -423,-1268l-2621 0c93,863 -409,607 -423,1268z"/>
+                        <polygon class="fil0" points="0,6698 3835,6698 3835,6458 0,6458 "/>
+                        <path class="fil0" d="M2844 2017l-1825 0c34,865 -101,1694 -360,2507l2541 0c-298,-798 -399,-1642 -356,-2507z"/>
+                        <polygon class="fil0" points="601,1878 3263,1878 3263,1545 601,1545 "/>
+                        <path class="fil0" d="M866 0l-479 0 203 1406 2684 0 202 -1406 -479 0 -79 895c0,38 -31,69 -70,69l-520 0c-39,0 -71,-33 -69,-72l34 -892 -723 0 34 886c4,45 -28,78 -69,78l-520 0c-36,0 -66,-27 -69,-63l-80 -901z"/>
+                        <path class="fil0" d="M3305 4666l-2775 0c-158,0 -155,243 0,243l2775 0c158,0 154,-243 0,-243z"/>
+                    </g>
+                </svg>
+            </div>
+            <div class="piece-focus"></div>
+        </template>
+        <template id="knight">
+            <div class="piece-container">
+                <svg viewBox="0 0 3835 7450" class="piece knight">
+                    <g>
+                        <path class="fil0" d="M184 6878c1155,0 2311,0 3467,0 -13,-762 -506,-571 -423,-1578 -874,0 -1747,0 -2621,0 87,1001 -410,814 -423,1578z"/>
+                        <path class="fil0" d="M0 7292c1278,0 2556,0 3835,0 0,-80 0,-160 0,-241 -1279,0 -2557,0 -3835,0 0,81 0,161 0,241z"/>
+                        <path class="fil0" d="M3299 4894l-2763 0c-157,0 -153,256 0,256l2763 0c156,0 152,-256 0,-256z"/>
+                        <path class="fil0" d="M1289 0c-37,194 -32,388 14,580 5,14 4,30 -2,45 -72,184 -198,178 -265,389 -3,8 -7,16 -13,24 -257,317 -514,635 -771,953 2,161 34,269 94,328 54,54 139,68 251,46 103,-123 196,-268 353,-325 65,-26 885,112 704,-441 -53,-162 150,-225 206,-78 501,1319 -1410,1805 -1305,3224 912,0 1824,-1 2736,-3 6,-336 82,-656 219,-967 604,-1368 53,-3301 -1548,-3533 -3,33 -2,85 0,122 5,67 -76,100 -119,53 -146,-156 -349,-346 -554,-417z"/>
+                    </g>
+                </svg>
+            </div>
+            <div class="piece-focus"></div>
+        </template>
+        <template id="bishop">
+            <div class="piece-container">
+                <svg viewBox="0 0 3835 9000" class="piece bishop">
+                    <g>
+                        <path class="fil0" d="M845 6692l2144 0c-324,-894 -305,-1770 -367,-2675l-1410 0c-62,905 -44,1780 -367,2675z"/>
+                        <path class="fil0" d="M419 6831l0 241 2996 0 0 -241c-998,0 -1997,0 -2996,0z"/>
+                        <path class="fil0" d="M3228 7211l-2621 0c93,862 -409,606 -423,1267l3467 0c-14,-660 -512,-397 -423,-1267z"/>
+                        <polygon class="fil0" points="0,8617 0,8858 3835,8858 3835,8617 "/>
+                        <path class="fil0" d="M2032 48c-102,-102 -277,-30 -277,115 0,144 175,217 277,115 64,-64 64,-167 0,-230z"/>
+                        <path class="fil0" d="M2016 477c-64,20 -134,20 -198,0 -429,396 -1024,921 -1036,1551 14,419 217,859 575,1091l1120 0c359,-232 561,-673 576,-1092 -7,-361 -209,-685 -436,-953l-505 1087c-110,238 -464,67 -356,-165l571 -1229c-102,-99 -207,-194 -311,-290z"/>
+                        <path class="fil0" d="M2986 3640l-2137 0c-155,0 -151,236 0,236l2137 0c155,0 151,-236 0,-236z"/>
+                        <polygon class="fil0" points="1207,3258 1207,3499 2627,3499 2627,3258 "/>
+                    </g>
+                </svg>
+            </div>
+            <div class="piece-focus"></div>
+        </template>
+        <template id="queen">
+            <div class="piece-container">
+                <svg viewBox="0 0 3835 8372" class="piece queen">
+                    <g>
+                        <path class="fil0" d="M419 6634l0 240 2996 0 0 -240c-998,0 -1997,0 -2996,0z"/>
+                        <path class="fil0" d="M3228 7013l-2621 0c93,863 -409,606 -423,1268l3467 0c-14,-660 -512,-398 -423,-1268z"/>
+                        <polygon class="fil0" points="0,8420 0,8660 3835,8660 3835,8420 "/>
+                        <path class="fil0" d="M1917 578c-284,0 -764,149 -764,500 0,70 22,136 63,197 108,38 247,-11 262,-96 5,-30 25,-51 47,-54 51,-6 101,-12 151,-18 31,-3 57,26 59,64 72,230 357,117 364,0 3,-39 29,-67 61,-64 50,5 100,11 149,18 25,3 44,27 48,57 18,97 177,123 262,93 40,-61 62,-127 62,-197 0,-351 -480,-500 -764,-500z"/>
+                        <path class="fil0" d="M2263 1258c-22,-3 -45,-6 -68,-8 -87,236 -469,236 -556,-1 -22,3 -45,6 -68,9 -73,178 -331,211 -467,106l-137 47c198,354 329,734 340,1131 407,0 814,0 1220,0 12,-397 142,-777 341,-1131 -46,-17 -91,-33 -137,-47 -151,116 -431,79 -468,-106z"/>
+                        <path class="fil0" d="M2606 2684l-1377 0c-155,0 -151,237 0,237l1377 0c154,0 151,-237 0,-237z"/>
+                        <path class="fil0" d="M1001 3062c-155,0 -151,237 0,237l1833 0c154,0 151,-237 0,-237l-1833 0z"/>
+                        <path class="fil0" d="M904 3441c-155,0 -151,237 0,237l2027 0c154,0 151,-237 0,-237 -676,0 -1351,0 -2027,0z"/>
+                        <path class="fil0" d="M2062 60c-129,-128 -349,-37 -349,144 0,182 220,273 349,145 79,-80 79,-209 0,-289z"/>
+                        <path class="fil0" d="M845 6495l2144 0c-324,-895 -305,-1771 -367,-2676l-1410 0c-62,905 -44,1781 -367,2676z"/>
+                    </g>
+                </svg>
+            </div>
+            <div class="piece-focus"></div>
+        </template>
+        <template id="king">
+            <div class="piece-container">
+                <svg viewBox="0 0 3835 9410" class="piece king">
+                    <g>
+                        <path class="fil0" d="M2861 4069c-629,0 -1258,0 -1888,0 -154,0 -151,236 0,236l1888 0c155,0 151,-236 0,-236z"/>
+                        <path class="fil0" d="M2606 3315l-1377 0c-155,0 -151,236 0,236l1377 0c154,0 151,-236 0,-236z"/>
+                        <path class="fil0" d="M2036 0l-237 0c38,176 60,349 68,529 2,41 -32,74 -72,72 -178,-7 -355,-30 -530,-68l0 238c177,-38 349,-60 530,-68 40,-2 74,32 72,72 -7,177 -30,353 -68,529l237 0c-38,-177 -60,-348 -68,-529 -2,-40 31,-73 72,-72 178,7 355,30 529,68l0 -238c-176,38 -352,61 -529,68 -41,2 -74,-31 -72,-71 7,-179 30,-355 68,-530z"/>
+                        <path class="fil0" d="M1633 1443l0 151 568 0 0 -151c-189,0 -378,0 -568,0z"/>
+                        <path class="fil0" d="M1083 1733c0,-64 -185,98 -205,356 6,99 335,511 349,1085l1380 0c16,-615 335,-932 349,-1084 -17,-166 -35,-331 -209,-357l-1664 0z"/>
+                        <path class="fil0" d="M0 9291l3835 0 0 -240c-1279,0 -2557,0 -3835,0l0 240z"/>
+                        <path class="fil0" d="M3228 7644l-2621 0c94,872 -408,567 -423,1268l3467 0c-15,-701 -513,-388 -423,-1268z"/>
+                        <path class="fil0" d="M419 7505c999,0 1998,0 2996,0l0 -240c-998,0 -1997,0 -2996,0l0 240z"/>
+                        <path class="fil0" d="M1058 3928l1718 0c155,0 151,-236 0,-236l-1718 0c-154,0 -151,236 0,236z"/>
+                        <path class="fil0" d="M845 7126l2144 0c-324,-895 -305,-1775 -367,-2679l-1409 0c-62,904 -45,1784 -368,2679z"/>
+                    </g>
+                </svg>
+            </div>
+            <div class="piece-focus"></div>
+        </template>
+        <script src="scripts/const.js"></script>
+        <script src="scripts/util.js"></script>
+        <script src="scripts/pgn.js"></script>
+        <script src="scripts/board-state.js"></script>
+        <script src="scripts/replay.js"></script>
+        <script src="scripts/chess.js"></script>
+    </body>
+</html>
